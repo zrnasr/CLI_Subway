@@ -1,36 +1,47 @@
-import logging
 import uuid
 from src import BankAccount
+import re
+import os
+import pickle
 
 class User:
     def __init__(self, username, password):
         self.username = username
+        self._validate_password(password)
         self.__password = password
         self.account = BankAccount(title = "Main_Account", balance = 10)
         self.ticket_list = []
         self.__id = uuid.uuid1()
+        self.banned_user = False
 
-#        logging.basicConfig(filename='user_instances.log', level=logging.INFO,
-#        format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-#        logging.info('User instance created: name=%s, id=%r', self.username, self.__id)
-
+    #getter id
     @property
     def id(self):
         return self.__id
 
+    #getter password
     @property
     def password(self):
         return self.__password
 
     @password.setter
     def password(self, newpass):
-        self.validate_password(newpass)
+        self._validate_password(newpass)
         self.__password = newpass
 
-    def reset_password(self):
-        npass = self.security()
-        if npass:
-            self._password = npass
+    @staticmethod
+    def _validate_password(password):
+        assert re.fullmatch(r'^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$', password), ("Invalid password. should contains a-z, 0-9, at least 8 chars, ..")
+
+
+    def find_user(self, filename, search_path):
+        result = []
+        for root, dirname, files in os.walk(search_path):
+            if filename in files:
+                result.append(os.path.join(root, filename))
+        with open(f'{result[0]}', 'rb') as f:
+            user = pickle.load(f)
+        return user
 
     def make_deposit(self, amount):
         self.account.deposit(amount)
@@ -46,34 +57,21 @@ class User:
     def buy_ticket(self, ticket):
         self.ticket_list.append(ticket)
 
-    def make_trip(self, location):
-        pass
-
-    def use_ticket_bynumber(self, ticket):
-        self.ticket_list[ticket - 1].use_ticket()
-        self.ticket_validation(self.ticket_list[ticket - 1])
-
-    def use_ticket_byid(self, ticket_id):
-        for ticket in self.ticket_list:
-            print(ticket)
-            if ticket_id == str(ticket.ticket_id):
-                ticket.use_ticket()
-                self.ticket_validation(ticket)
 
     def charge_chargeble_ticket(self, number, amount):
         self.ticket_list[number - 1].charge_ticket(amount)
-
-
-    def ticket_validation(self, ticket):
-        if ticket.check_expiration():
-            self.ticket_list.remove(ticket)
 
     def show_ticket_list(self):
         for ticket in (self.ticket_list):
             yield ticket
 
-    def show_account_information(self):
-        return f"""
-                    username:{self.username}
-                    user_id:{self.__id}
-                    """
+
+class SuperUser(User):
+
+    def __init__(self, username, password):
+        super().__init__(username, password)
+        self.__id = uuid.uuid1()
+
+
+    def set_blacklist(self, user : User):
+        user.banned_user = True

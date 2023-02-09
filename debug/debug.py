@@ -1,9 +1,21 @@
 import logging
 
-logging.basicConfig(filename="debug/bank_acc.log", format='%(asctime)s %(message)s', filemode='w')
-subway_logger = logging.getLogger()
-subway_logger.setLevel(logging.DEBUG)
+def setup_logger(log_file): 
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    handler = logging.FileHandler(log_file)        
+    handler.setFormatter(formatter)
 
-logging.basicConfig(filename="debug/ticket.log", format='%(asctime)s %(message)s', filemode='w')
-ticket_logger = logging.getLogger()
-ticket_logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(handler)
+
+    return logger
+
+user_logger = setup_logger("debug/user.log")
+bank_logger = setup_logger("debug/bank_acc.log")
+ticket_logger = setup_logger("debug/ticket.log")
+
+
+
+
+

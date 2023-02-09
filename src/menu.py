@@ -2,8 +2,7 @@ class Menu:
     login_menu= {
     '1' : 'Bank Account Management',
     '2' : 'Buy Ticket',
-    '3' : 'Take a Trip',
-    '4' : 'Log out'
+    '3' : 'Log out'
     }
 
     bank_acount_menu = {
@@ -18,21 +17,15 @@ class Menu:
         '2' : 'Disposable(you can use it only once)',
         '3' : 'Date Expirable',
         '4' : 'Show Ticket List',
-        '5' : 'Charge Charble card'
+        '5' : 'Charge Chargeable card'
     }
 
-    admin_menu = {
-        '1' : 'CREATE NEW ADMIN',
-        '2' : 'CREATE TICKET',
-        '3' : 'EDIT TICKETS',
-        '4' : 'CREATE METRO SCHEDULE',
-        '5' : 'EDIT METRO SCHEDULE',
-        '6' : 'BAN USER',
-        '7' : 'DELETE TICKET',
-        '8' : 'Log out'
+    superuser_menu = {
+        '1' : 'REGISTER NEW ADMIN',
+        '2' : 'LOGIN ADMIN'
         }
 
-    user_options= {
+    main_menu= {
         '1' : 'Register New User',
         '2' : 'Log in as User',
         '3' : 'Log in as Administrator',

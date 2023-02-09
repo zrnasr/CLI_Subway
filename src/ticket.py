@@ -1,14 +1,10 @@
 import uuid
 import datetime
-import pickle
 from abc import ABC, abstractmethod
 from dateutil.relativedelta import relativedelta
 import json
 import os
-
-def pickle_tickets(ticket_obj):
-	with open(f"tickets/{ticket_obj.ticket_id}.ticket.pickle" , 'wb') as ticket:
-		pickle.dump(ticket_obj, ticket)
+from src import pickle_tickets
 
 class Ticket(ABC):
 	trip_fee = 10
@@ -123,7 +119,15 @@ class DisposableTicket(Ticket):
 	def expire(self):
 		pass
 
-	def __repr__(self):
-		return f'\tType: Expirable Ticket\n\tTicket ID: {self.ticket_id}\n\tExpiration Date: {self.expiration_date}\n\tCredit: {self.balance}'
+	def _delete_ticket(self):
+		pass
 
+	def use_ticket(self):
+		pass
+
+	def _update(self):
+		pass
+
+	def __repr__(self):
+		return f'\tType: Disposable Ticket\n\tTicket ID: {self.ticket_id}'
 

@@ -9,11 +9,11 @@ user_path = "user/"
 def show_menu(dictionary):
     print(json.dumps(dictionary, indent = 4))
 
-def register_user(self):
+def save_user(obj):
     if not os.path.exists(user_path):
         os.makedirs(user_path)
-    with open(f"{user_path}{self.id}.pickle", 'wb') as user:
-        pickle.dump(self, user)
+    with open(f"{user_path}{obj.id}.pickle", 'wb') as user:
+        pickle.dump(obj, user)
 
 def get_unique_id(user_id):
     with open(f"{user_path}{user_id}.pickle", 'rb') as user:
