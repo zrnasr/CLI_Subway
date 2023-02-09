@@ -211,6 +211,7 @@ class Main:
                             user_object = logged_in_admin.find_user(f'{id}.pickle', 'user/')
 
                             logged_in_admin.set_blacklist(user_object)
+                            save_user(user_object)
                             user_logger.info("user was set in black list by admin")
                             input("user was set in black list by admin. Press any key to Logout ...")
                         except:

@@ -34,9 +34,9 @@ class User:
         assert re.fullmatch(r'^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$', password), ("Invalid password. should contains a-z, 0-9, at least 8 chars, ..")
 
 
-    def find_user(self, filename, search_path):
+    def find_user(self, filename, user_path):
         result = []
-        for root, dirname, files in os.walk(search_path):
+        for root, dirname, files in os.walk(user_path):
             if filename in files:
                 result.append(os.path.join(root, filename))
         with open(f'{result[0]}', 'rb') as f:
