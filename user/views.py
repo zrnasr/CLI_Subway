@@ -1,4 +1,11 @@
 
+# def register(self):
+#     print("registered!")
+
+# def login(self):
+#     pass
+
+
 class BankAccount:
     __balance = 500
 
@@ -19,5 +26,13 @@ class User:
         self.__password = password
         self.account = BankAccount
 
+    def register(self):
+        print("registered!")
+
+    def login(self):
+        pass
+
+
 class Admin(User):
-    pass
+    def is_blacklist(self):
+        pass
