@@ -1,13 +1,18 @@
-
-# def register(self):
-#     print("registered!")
-
-# def login(self):
-#     pass
+from .models import User
+from SQLAlchemy.database import db_save_obj
 
 
-class BankAccount:
-    __balance = 500
+
+def register(self):
+    user = User(username="zahra", password="nasr")
+    db_save_obj(user)
+
+
+def login(self):
+    pass
+
+
+class BankAccount():
 
     def deposit(self, amount):
         BankAccount.__balance += amount
@@ -20,19 +25,3 @@ class BankAccount:
         return BankAccount.__balance
     
 
-class User:
-    def __init__(self, username, password):
-        self.username = username
-        self.__password = password
-        self.account = BankAccount
-
-    def register(self):
-        print("registered!")
-
-    def login(self):
-        pass
-
-
-class Admin(User):
-    def is_blacklist(self):
-        pass

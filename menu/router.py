@@ -78,7 +78,7 @@ class Route:
             try:
                 route.callback and route.callback(route)
             except Exception as e:
-                print("Error!")
+                print("Error!", e)
             input(f"\nPress Enter back to '{route.parent.name}' ...")
 
             StateManager.delete_last_route_name()
