@@ -1,15 +1,20 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from SQLAlchemy.database import Base, engine
+
 from sqlalchemy import ForeignKey
+from SQLAlchemy.database import Base, engine
 
 class User(Base):
-    __tablename__ = "Users"
+    __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"), nullable= True)
     username: Mapped[str]
     password: Mapped[str]
+    is_banned: Mapped[bool] = mapped_column(default=False)
     account = relationship("BankAccount")
+
+# class Admin(User):
+#     __tablename__ = "admin"
 
 
 class BankAccount(Base):

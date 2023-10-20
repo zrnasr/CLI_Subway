@@ -71,8 +71,8 @@ class Route:
 
         if self.parent == route:
             StateManager.delete_last_route_name()
-            route()   #what does it call??
-        elif route.children: #???
+            route()
+        elif route.children:
             route()
         else:
             try:

@@ -1,12 +1,13 @@
+from user.models import User
 
 class StateManager:
     __routes = []
-    __user: None #| User = None
+    __user: None | User = None
 
-    @classmethod   #why not an usual method?
+    @classmethod
     def login_status(cls) -> bool:
-        # return bool(cls.__user)
-        return False
+        return bool(cls.__user)
+
     
     @classmethod
     def add_route_name(cls, name: str) -> None:
@@ -16,3 +17,11 @@ class StateManager:
     @classmethod
     def delete_last_route_name(cls) -> None:
         cls.__routes.pop()
+
+    @classmethod
+    def set_user(cls, user: User) -> None:
+        cls.__user = user
+
+    @classmethod
+    def logout(cls) -> None:
+        cls.__user = None
