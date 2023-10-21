@@ -23,5 +23,9 @@ class StateManager:
         cls.__user = user
 
     @classmethod
+    def get_user(cls) -> User:
+        return cls.__user
+
+    @classmethod
     def logout(cls) -> None:
         cls.__user = None
