@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, Session
 
 Base = declarative_base()
-engine = create_engine("sqlite:///metro.sqlite3", echo=True)
+engine = create_engine("sqlite:///metro.sqlite3")
 
 def db_add_obj(obj):
     with Session(engine) as session:

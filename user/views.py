@@ -1,6 +1,7 @@
 from SQLAlchemy.db_user import db_get_user_by_password, db_add_user, db_ban_user
 from SQLAlchemy.db_account import db_get_balance
-from .models import User, BankAccount, Ticket
+from SQLAlchemy.db_ticket import db_buy_chargeable_ticket, db_buy_disposable_ticket, db_charge_chargeable_ticket
+from .models import User, BankAccount
 from menu.state import StateManager
 
 def register(route):
@@ -47,8 +48,25 @@ def balance(route):
         print(f"Your balance is {balance}.")
     except Exception as e:
         input("Error!! Something is wrong!", e)
+    
+def chargeable(route):
+    try:
+        db_buy_chargeable_ticket()
+        print("Successfuly bought a chargeable ticket!")
+    except Exception as e:
+        print("Could not buy chargeable ticket! ", e)
+
 
 def disposable(route):
-    balance = balance()
-    assert balance >= Ticket.trip_fee, "Not enough money to buy disposable ticket!"
-    
+    try:
+        db_buy_disposable_ticket()
+    except Exception as e:
+        print("Could not buy disposable ticket! ", e)
+
+
+def charge_chargeable_ticket(route):
+    try:
+        amount = input(int("How much do you want to charge your ticket? "))
+        db_charge_chargeable_ticket(amount)
+    except Exception as e:
+        ...

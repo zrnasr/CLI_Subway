@@ -11,9 +11,9 @@ router = Router(
             Route("Withdraw", CallBack("withdraw", "user.views")),
         ]),
         Route("Ticket", condition= StateManager.login_status, children= [
-            Route("Chargeble", CallBack("chargeble", "user.views")),
+            Route("Chargeable", CallBack("chargeable", "user.views")),
             Route("Disposable", CallBack("disposable", "user.views")),
-            Route("Date Expirable", CallBack("date Expirable", "user.views")),
+            Route("Date Expirable", CallBack("expirable", "user.views")),
         ]),
         Route("Administrator", children= [
             Route("Register", CallBack("register", "user.views"), condition= lambda: not StateManager.login_status()),
