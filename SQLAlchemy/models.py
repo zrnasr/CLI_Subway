@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from SQLAlchemy.database import Base, engine
-from sqlalchemy import ForeignKey, Column, PickleType, JSON
-from typing import Dict
+from sqlalchemy import ForeignKey, Column, JSON
 
 ticket_dict = {"chargeable":0, "disposable":0}
+minimum_charge = 100
 
 class User(Base):
     __tablename__ = "users"
@@ -16,15 +16,12 @@ class User(Base):
 
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
     account: Mapped["BankAccount"] = relationship(back_populates="user")
-    # ticket_id: Mapped[int] = mapped_column(ForeignKey("ticket.id"))
-    # ticket: Mapped["Ticket"] = relationship(back_populates="users")
-
 
 class BankAccount(Base):
     __tablename__ = "account"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    balance : Mapped[float] = mapped_column(default= 365)
+    balance : Mapped[float] = mapped_column(default= minimum_charge)
 
     user: Mapped["User"] = relationship(back_populates="account")
 
@@ -32,8 +29,7 @@ class Ticket(Base):
     __tablename__ = "ticket"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    trip_fee: Mapped[float] = mapped_column(default= 50)
+    trip_fee: Mapped[float] = mapped_column(default= 50.0)
     year: Mapped[int] = mapped_column(default=2023)
-
 
 Base.metadata.create_all(engine)

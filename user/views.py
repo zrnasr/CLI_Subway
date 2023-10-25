@@ -1,32 +1,35 @@
-from SQLAlchemy.db_user import db_get_user_by_password, db_add_user, db_ban_user
-from SQLAlchemy.db_account import db_get_balance
-from SQLAlchemy.db_ticket import db_buy_chargeable_ticket, db_buy_disposable_ticket, db_charge_chargeable_ticket
-from .models import User, BankAccount
-from menu.state import StateManager
+from SQLAlchemy.db_user import db_get_user_by_password, db_add_user, db_ban_user, db_check_banned_user
+from SQLAlchemy.db_account import db_get_balance, db_deposit
+from core.utils import validate_password
+from SQLAlchemy.models import User, BankAccount
+from core.state import StateManager
 
 def register(route):
     try:
-        username = input("Choose a username please: ") #add regex
+        username = input("Choose a username please: ")
+        assert username, "Please fill username field!"
         password = input("Choose a password please: ")
+        validate_password(password)
         account = BankAccount()
         user = User(username=username, password=password, account = account)
         db_add_user(user)
         print("Successfuly Registered!")
-    except:
-        print("Error in Registering! Please Try again!")
+    except Exception as e:
+        print("Error! ", e)
 
 def login(route):
     try:
-        username = input("Enter your username please: ") #add regex
+        username = input("Enter your username please: ")
         password = input("Enter your password please: ")
-        user = db_get_user_by_password(username, password)
-        if user:
-            StateManager.set_user(user)
-            print(f"Hello {user}!")
+        obj = db_get_user_by_password(username, password)
+        if obj:
+            assert db_check_banned_user(obj) == False, "You are in the blacklist! Can NOT Login!"
+            StateManager.set_user(username)
+            print(f"Hello {username}!")
         else:
             print("There is no user with this username. Please register first!")
-    except:
-        print("Error in Logging in! Try again!")
+    except Exception as e:
+        print("Error! ", e)
 
 def logout(route):
     StateManager.logout()
@@ -44,29 +47,19 @@ def ban_user(route):
 
 def balance(route):
     try:
-        balance = db_get_balance()
+        user = StateManager.get_user()
+        balance = db_get_balance(user)
         print(f"Your balance is {balance}.")
     except Exception as e:
         input("Error!! Something is wrong!", e)
+
+def deposit(route):
+    try:
+        user = StateManager.get_user()
+        amount = int(input("How much do you want to deposit? "))
+        db_deposit(user, amount)
+        print(f"Operation is Successful!")
+    except Exception as e:
+        input("Error!! Something is wrong!", e)
     
-def chargeable(route):
-    try:
-        db_buy_chargeable_ticket()
-        print("Successfuly bought a chargeable ticket!")
-    except Exception as e:
-        print("Could not buy chargeable ticket! ", e)
 
-
-def disposable(route):
-    try:
-        db_buy_disposable_ticket()
-    except Exception as e:
-        print("Could not buy disposable ticket! ", e)
-
-
-def charge_chargeable_ticket(route):
-    try:
-        amount = input(int("How much do you want to charge your ticket? "))
-        db_charge_chargeable_ticket(amount)
-    except Exception as e:
-        ...

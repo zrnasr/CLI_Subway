@@ -1,4 +1,4 @@
-from user.models import User
+from SQLAlchemy.models import User
 
 class StateManager:
     __routes = []

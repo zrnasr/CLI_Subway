@@ -1,5 +1,5 @@
 from typing import Any, Callable
-from .state import StateManager
+from core.state import StateManager
 from importlib import import_module
 
 class CallBack:
@@ -9,12 +9,9 @@ class CallBack:
         self.kwargs = kwargs
         self.args = args
 
-#when does it call???
     def __call__(self, *args, **kwargs):
         self.function = getattr(import_module(self.package or __name__), self.function if isinstance(self.function, str) else self.function.__name__)
         self.function(*self.args, *args, **self.kwargs, **kwargs)
-        #what is *self.args?
-
 
 class Route:
     def __init__(self, name : str, callback: Callable | None = None, description: str | None = None, children: list["Route"] | None = None, condition: Callable = lambda: True, epilog : str | None = None):
@@ -39,7 +36,7 @@ class Route:
                 print(self.description or " ", end= "\n\n")
                 if children := [ child for child in self.children if child.condition()]:
                     for child in children:
-                        child : Route  ### whats happening???
+                        child : Route
                         print(f" {children.index(child) + 1}. {child.name}")
                     print(f"\n 0. Back to '{self.parent.name}'" if self.parent else "\n 0. Exit")
                     print("\n" + (self.epilog or " "))
@@ -50,7 +47,7 @@ class Route:
 
                     if not route:
                         if input("Do you want to exit ? [y|N] : ").strip().lower()[0] == "y":
-                            print("Goodbye XD")
+                            print("Goodbye!")
                             exit()
                         else:
                             continue
