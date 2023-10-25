@@ -14,21 +14,21 @@ def db_add_ticket():
 def db_buy_chargeable_ticket():
     fee = get_trip_fee()
     username = StateManager.get_user()
-    assert db_get_balance(username) >= fee, print("Not Enough Money to Buy Chargeable Ticket!")
+    assert db_get_balance(username) >= fee, "Not Enough Money to Buy Chargeable Ticket!"
     db_withdraw(username, fee)
     db_add_chargeable_to_user(username)
 
 def db_buy_disposable_ticket():
     fee = get_trip_fee()
     username = StateManager.get_user()
-    assert db_get_balance(username) >= fee, print("Not Enough Money to Buy Disposable Ticket!")
+    assert db_get_balance(username) >= fee, "Not Enough Money to Buy Disposable Ticket!"
     db_withdraw(username, fee)
     db_add_disposable_to_user(username)
         
 def db_charge_chargeable_ticket(amount):
     username = StateManager.get_user()
-    assert db_get_balance(username) >= amount, print("Not Enough Money to charge Chargeable Ticket!")
-    db_withdraw(username, amount)
+    assert db_get_balance(username) >= amount, "Not Enough Money to charge Chargeable Ticket!"
+    db_withdraw(username, amount)    
 
 def get_trip_fee():
     query = select(Ticket).where(Ticket.year == current_year)

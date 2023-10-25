@@ -43,7 +43,7 @@ def ban_user(route):
         else:
             print(f"User {user} not found!")
     except Exception as e:
-        input("Error!! Something is wrong!", e)
+        print("Error!! Something is wrong!", e)
 
 def balance(route):
     try:
@@ -51,7 +51,7 @@ def balance(route):
         balance = db_get_balance(user)
         print(f"Your balance is {balance}.")
     except Exception as e:
-        input("Error!! Something is wrong!", e)
+        print("Error!! Something is wrong!", e)
 
 def deposit(route):
     try:
@@ -60,6 +60,6 @@ def deposit(route):
         db_deposit(user, amount)
         print(f"Operation is Successful!")
     except Exception as e:
-        input("Error!! Something is wrong!", e)
+        print("Error!! Something is wrong!", e)
     
 

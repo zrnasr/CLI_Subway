@@ -32,10 +32,15 @@ def db_check_banned_user(obj):
 def db_add_chargeable_to_user(username):
     query = update(USERS).values({'ticket_dict': func.json_set(USERS.c.ticket_dict, "$.chargeable", USERS.c.ticket_dict["chargeable"] + 1)}).\
             where(USERS.c.username == username)
-    db_run_query(query)                       
-    
+    db_run_query(query)   
 
 def db_add_disposable_to_user(username):
     query = update(USERS).values({'ticket_dict': func.json_set(USERS.c.ticket_dict, "$.disposable", USERS.c.ticket_dict["disposable"] + 1)}).\
             where(USERS.c.username == username)
-    db_run_query(query) 
+    db_run_query(query)
+
+def db_has_chargeable_ticket():
+    username = StateManager.get_user()
+    query = select(User).where(User.username == username)
+    if obj := db_get_obj(query):
+        return obj.ticket_dict["chargeable"] > 0
