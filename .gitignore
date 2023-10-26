@@ -3,5 +3,6 @@ db.sqlite3
 __init__.py
 *.sqlite*
 env/
+config.py
 
 
